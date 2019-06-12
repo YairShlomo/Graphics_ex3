@@ -62,19 +62,7 @@ public class Player {
         camera_y = new_y;
         camera_z = new_z;
         norm();
-        for (int i=0; i<3;i++) {
-            System.out.print(camera_x[i]+"");
-        }
-        System.out.println("");
 
-        for (int i=0; i<3;i++) {
-            System.out.print(camera_y[i]+"");
-        }
-        System.out.println("");
-
-        for (int i=0; i<3;i++) {
-            System.out.print(camera_z[i]+"");
-        }
 
     }
 
@@ -97,10 +85,7 @@ public class Player {
         position[0] += step*trans_move[0];
         position[1] += step*trans_move[1];
         position[2] += step*trans_move[2];
-        for (int i=0; i<3;i++) {
-            System.out.print(position[i]+" ");
-        }
-        System.out.println("");
+
 
     }
     /**

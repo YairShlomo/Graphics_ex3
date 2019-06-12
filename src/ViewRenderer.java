@@ -53,6 +53,11 @@ public class ViewRenderer implements GLEventListener {
     //Initialize the texture variable array
     private Texture[] textures = new Texture[3];
 
+    //argumnets of movemnet
+    float next_paces[] = new float[3];
+    //argumnets camera turn
+    float camTurn[] = new float[3];
+
     GLU glu = new GLUgl2();
     GLUT glut = new GLUT();
 
@@ -92,10 +97,13 @@ public class ViewRenderer implements GLEventListener {
         //Update the camera angle based on the angular speed
         angle += turn;
 
-        //Update the camera position based on the current camera speeds
-        xPos += speed * Math.sin(angle);
-        zPos += speed * Math.cos(angle);
 
+
+        //Update the player position according to the steps
+        player.movePlayer(next_paces[0], next_paces[1], next_paces[2]);
+        player.moveCamera(camTurn[0], "x");
+        player.moveCamera(camTurn[1], "y");
+        player.moveCamera(camTurn[2], "z");
         //update the look-at position based on the current cam position
        // xLookAt = (float) (xPos + Math.sin(angle));
         //zLookAt = (float) (zPos + Math.cos(angle));
@@ -199,7 +207,9 @@ public class ViewRenderer implements GLEventListener {
 
         //Load the image files to be used as textures
         try {
-            textures[0] = TextureIO.newTexture(new File("textures/wall.jpg"), true);
+            //textures[0] = TextureIO.newTexture(new File("textures/wall.jpg"), true);
+            textures[0] = TextureIO.newTexture(new File("textures/wall_green1.jpg"), true);
+
             textures[1] = TextureIO.newTexture(new File("textures/floor.jpg"), true);
             textures[2] = TextureIO.newTexture(new File("textures/ceiling.jpg"), true);
         } catch (Exception e) {
@@ -318,31 +328,44 @@ public class ViewRenderer implements GLEventListener {
      * @param move the boolean that decides to either move or stand still
      */
     public void moveForward(Boolean move) {
-        if (move) speed = 0.03f;
-        else speed = 0f;
+        if (move) next_paces[2] = 1f;
+        else next_paces[2] = 0f;
     }
 
-    /**
-     * Move the camera backward
-     */
+
     public void moveBackward(Boolean move) {
-        if (move) speed = -0.03f;
-        else speed = 0f;
+        if (move) next_paces[2] = -1f;
+        else next_paces[2] = 0f;
     }
 
-    /**
-     * Turn the camera left
-     */
+    public void moveLeft(Boolean move) {
+        if (move) next_paces[0] = -1f;
+        else next_paces[0] = 0f;
+    }
+
+
+    public void moveRight(Boolean move) {
+        if (move) next_paces[0] = 1f;
+        else next_paces[0] = 0f;
+    }
+
     public void turnLeft(Boolean move) {
-        if (move) turn = 0.05f;
-        else turn = 0f;
+        if (move) camTurn[1] = 1f;
+        else {
+            System.out.println("dsd");
+            camTurn[2] = 0f;
+        }
     }
-
-    /**
-     * Turn the camera right
-     */
     public void turnRight(Boolean move) {
-        if (move) turn = -0.05f;
-        else turn = 0f;
+        if (move) camTurn[1] = -1f;
+        else camTurn[2] = 0f;
+    }
+    public void turnUp(Boolean move) {
+        if (move) camTurn[0] = 1f;
+        else camTurn[0] = 0f;
+    }
+    public void turnDown(Boolean move) {
+        if (move) camTurn[0] = -1f;
+        else camTurn[0] = 0f;
     }
 }

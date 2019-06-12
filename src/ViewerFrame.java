@@ -4,6 +4,7 @@ import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
 import javax.media.opengl.awt.GLJPanel;
 import javax.swing.*;
+//import java.awt.desktop.SystemSleepEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -82,7 +83,9 @@ public class ViewerFrame extends JFrame implements KeyListener, ActionListener {
         getContentPane().add(jpanel);
 
         // Add the event listeners
-        this.addKeyListener(this);
+        addKeyListener(this);
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
 
         // Build the menus
         buildMenu();
@@ -133,19 +136,53 @@ public class ViewerFrame extends JFrame implements KeyListener, ActionListener {
     @Override
     public void keyPressed(KeyEvent key) {
         switch (key.getKeyCode()) {
-            // If the user presses up/down, change the Y camera variable pos.
-            case KeyEvent.VK_UP:
+            // move the player position on the z and x axis
+            case KeyEvent.VK_W:
                 renderer.moveForward(true);
                 break;
-            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:
                 renderer.moveBackward(true);
                 break;
-            // If the user presses left/right, change the X camera variable pos.
+            case KeyEvent.VK_A:
+                renderer.moveLeft(true);
+                break;
+            case KeyEvent.VK_D:
+                renderer.moveRight(true);
+                break;
+
+            //move the camera
+            case KeyEvent.VK_UP:
+                renderer.turnUp(true);
+                break;
+            case KeyEvent.VK_DOWN:
+                renderer.turnDown(true);
+                break;
             case KeyEvent.VK_LEFT:
                 renderer.turnLeft(true);
                 break;
             case KeyEvent.VK_RIGHT:
                 renderer.turnRight(true);
+                break;
+
+            //TURE ON THE Z AXIS
+            case KeyEvent.VK_Q:
+              //  renderer.turnZUp(true);
+                break;
+            case KeyEvent.VK_E:
+               // renderer.turnZDown(true);
+                break;
+
+            // if jump
+            case KeyEvent.VK_SPACE:
+                //renderer.doJump();
+                break;
+            // game info
+            case KeyEvent.VK_F1:
+               // renderer.showGameDetails();
+                break;
+            //if user want to move to next level
+            case KeyEvent.VK_F2:
+               // renderer.setLevelTwo();
                 break;
             // If the user presses escape, exit the program
             case KeyEvent.VK_ESCAPE:
@@ -167,20 +204,42 @@ public class ViewerFrame extends JFrame implements KeyListener, ActionListener {
     @Override
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
-            // If the user unpresses up/down, change the Y camera speed back.
-            case KeyEvent.VK_UP:
+            //player not move.
+            // move the player position on the z and x axis
+            case KeyEvent.VK_W:
                 renderer.moveForward(false);
                 break;
-            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:
                 renderer.moveBackward(false);
                 break;
-            // If the user presses left/right, change the X camera speed back
+            case KeyEvent.VK_A:
+                renderer.moveLeft(false);
+                break;
+            case KeyEvent.VK_D:
+                renderer.moveRight(false);
+                break;
+
+            //move the camera
+            case KeyEvent.VK_UP:
+                renderer.turnUp(false);
+                break;
+            case KeyEvent.VK_DOWN:
+                renderer.turnDown(false);
+                break;
             case KeyEvent.VK_LEFT:
                 renderer.turnLeft(false);
                 break;
             case KeyEvent.VK_RIGHT:
                 renderer.turnRight(false);
                 break;
+            //TURE ON THE Z AXIS
+            case KeyEvent.VK_Q:
+                //renderer.turnZUp(false);
+                break;
+            case KeyEvent.VK_E:
+                //renderer.turnZDown(false);
+                break;
+
             // If it wasn't one of those keys, do nothing
             default:
                 break;
@@ -201,7 +260,7 @@ public class ViewerFrame extends JFrame implements KeyListener, ActionListener {
     /**
      * (non-Javadoc)
      *
-     * @param ActionEvent the object which triggered this action event. In this case
+     * @param e the object which triggered this action event. In this case
      *                    the object lets us know which menu item was selected
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      * <p>
