@@ -30,7 +30,6 @@ public class Room extends KeyAdapter implements GLEventListener , MouseMotionLis
     private Texture roomTexture;
     private Texture deskTexture;
     private float yRot = 0;
-    private WavefrontObjectLoader loader;
     private GLModel chairModel = null;
     private GLModel lampModel = null;
 

@@ -185,4 +185,30 @@ public class Player {
         result[2] = x[2]*s;
         return result;
     }
+    /**
+     * reset the player axis to the basis axis
+     */
+    public void resetCamera() {
+        camera_x[0] = 1;
+        camera_x[1] = 0;
+        camera_x[2] = 0;
+
+        camera_y[0] = 0;
+        camera_y[1] = 1;
+        camera_y[2] = 0;
+
+        camera_z[0] = 0;
+        camera_z[1] = 0;
+        camera_z[2] = -1;
+        setTransMatrix();
+    }
+    /**
+     * set player position
+     * @param pos
+     */
+    public void setPos(float[] pos) {
+        position[0] = pos[0];
+        position[1] = pos[1];
+        position[2] = pos[2];
+    }
 }
