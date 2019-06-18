@@ -239,7 +239,9 @@ public class ViewerFrame extends JFrame implements KeyListener, ActionListener {
             case KeyEvent.VK_E:
                 //renderer.turnZDown(false);
                 break;
-
+            case KeyEvent.VK_P:
+                //renderer.check(false);
+                break;
             // If it wasn't one of those keys, do nothing
             default:
                 break;

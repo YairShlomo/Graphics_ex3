@@ -57,6 +57,8 @@ public class ViewRenderer implements GLEventListener {
     float next_paces[] = new float[3];
     //argumnets camera turn
     float camTurn[] = new float[3];
+    private int gameLvl =-1;
+    private boolean isCollide = false;
 
     GLU glu = new GLUgl2();
     GLUT glut = new GLUT();
@@ -91,6 +93,17 @@ public class ViewRenderer implements GLEventListener {
         // Get the OpenGL Context
         GL2 gl = drawable.getGL().getGL2();
 
+        //check Game phase
+        switch(gameLvl) {
+            //lvl 1
+            case 1:
+                mazeCells = MazeLoader.MakeMaze("maze_layout_1");
+                player.resetCamera();
+                gameLvl = 0;
+                break;
+        }
+
+
         //Update the time variable for each frame
         time++;
 
@@ -108,9 +121,17 @@ public class ViewRenderer implements GLEventListener {
        // xLookAt = (float) (xPos + Math.sin(angle));
         //zLookAt = (float) (zPos + Math.cos(angle));
 
+
         //update the look-at position based on the current cam position
         player.setLookAtCoordinate();
         //Clear the colour and depth buffers
+        float nextPos[] = player.calcOneStep(next_paces[0], next_paces[1], next_paces[2]);
+
+        //check if there is collision
+        for (Cell cell : mazeCells) {
+            //if (cell.isHit(newPos[0], newPos[1], newPos[2], 0.1f)) {
+            //    isCollide = true;
+            }
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
         //Load the identity matrix and set up the camera based on its coords
@@ -208,7 +229,7 @@ public class ViewRenderer implements GLEventListener {
         //Load the image files to be used as textures
         try {
             //textures[0] = TextureIO.newTexture(new File("textures/wall.jpg"), true);
-            textures[0] = TextureIO.newTexture(new File("textures/wall_green1.jpg"), true);
+            textures[0] = TextureIO.newTexture(new File("textures/wall_maze.jpg"), true);
 
             textures[1] = TextureIO.newTexture(new File("textures/floor.jpg"), true);
             textures[2] = TextureIO.newTexture(new File("textures/ceiling.jpg"), true);
@@ -351,21 +372,24 @@ public class ViewRenderer implements GLEventListener {
 
     public void turnLeft(Boolean move) {
         if (move) camTurn[1] = 1f;
-        else {
-            System.out.println("dsd");
-            camTurn[2] = 0f;
-        }
+        else camTurn[1] = 0f;
     }
     public void turnRight(Boolean move) {
         if (move) camTurn[1] = -1f;
-        else camTurn[2] = 0f;
+        else camTurn[1] = 0f;
+
     }
     public void turnUp(Boolean move) {
         if (move) camTurn[0] = 1f;
-        else camTurn[0] = 0f;
+        else {
+            camTurn[0] = 0f;
+            System.out.println("up:"+move);
+
+        }
     }
     public void turnDown(Boolean move) {
         if (move) camTurn[0] = -1f;
         else camTurn[0] = 0f;
     }
+
 }

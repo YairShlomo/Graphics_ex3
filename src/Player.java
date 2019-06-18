@@ -18,9 +18,8 @@ public class Player {
         camera_angle = angle_move;
         setTransMatrix();
         //position[1]=-19.199997f;
-        position[1]=-15f;
+        position[1] = -15f;
     }
-
 
 
     /**
@@ -37,6 +36,7 @@ public class Player {
 
     /**
      * rotate the player axis and make norm
+     *
      * @param angle_step
      * @param axis
      */
@@ -45,7 +45,7 @@ public class Player {
         float[] new_y = camera_y;
         float[] new_z = camera_z;
         float alfa = angle_step * camera_angle;
-        switch(axis) {
+        switch (axis) {
             case "x":
                 new_z = addVecs(multScalarInVec(camera_z, COS(alfa)), multScalarInVec(camera_y, SIN(alfa)));
                 new_y = subVecs(multScalarInVec(camera_y, COS(alfa)), multScalarInVec(camera_z, SIN(alfa)));
@@ -67,8 +67,29 @@ public class Player {
     }
 
     /**
+     * given current position, calculate the only 1 step forward
+     * @param x
+     * @param y
+     * @param z
+     * @return
+     */
+    public float[] calcOneStep(float x, float y, float z) {
+        float[] move_coordinate = new float[3];
+        move_coordinate[0] = x;
+        move_coordinate[1] = y;
+        move_coordinate[2] = z;
 
+        //set the matrix with the current player coordinate
+        setTransMatrix();
+        float[] trans_move = multVecMatrix(axisTrans, move_coordinate);
+        move_coordinate[0] = position[0] + step*trans_move[0];
+        move_coordinate[1] = position[1] + step*trans_move[1];
+        move_coordinate[2] = position[2] + step*trans_move[2];
+        return move_coordinate;
+    }
+    /**
      * move the player according to the direction axis and considering speed -step
+     *
      * @param x
      * @param y
      * @param z
@@ -81,13 +102,14 @@ public class Player {
         //set the matrix with the current player coordinate
         setTransMatrix();
         //transform player coordinate and to world coordinate
-        float[] trans_move =  multVecMatrix(axisTrans,move_coordinate);
-        position[0] += step*trans_move[0];
-        position[1] += step*trans_move[1];
-        position[2] += step*trans_move[2];
+        float[] trans_move = multVecMatrix(axisTrans, move_coordinate);
+        position[0] += step * trans_move[0];
+        position[1] += step * trans_move[1];
+        position[2] += step * trans_move[2];
 
 
     }
+
     /**
      * set look at point camera coordinate
      */
@@ -96,10 +118,12 @@ public class Player {
         lookAt[1] = position[1] + camera_z[1];
         lookAt[2] = position[2] + camera_z[2];
     }
+
     /**
      * multVecMatrix.
+     *
      * @param mat is a matrix.
-     * @param v is a vector.
+     * @param v   is a vector.
      * @return the product of matrix and vector.
      */
     public float[] multVecMatrix(float[][] mat, float[] v) {
@@ -117,7 +141,6 @@ public class Player {
 
     /**
      * norm.
-     *
      */
     public void norm() {
         float xNumerator = getVecNumerator(camera_x);
@@ -132,44 +155,46 @@ public class Player {
 
     /**
      * getVecNorm.
+     *
      * @param x is a vector.
      * @return the norm of the vector.
      */
     public float getVecNumerator(float[] x) {
-        return (float)Math.sqrt(Math.pow(x[0], 2) + Math.pow(x[1], 2) + Math.pow(x[2], 2));
+        return (float) Math.sqrt(Math.pow(x[0], 2) + Math.pow(x[1], 2) + Math.pow(x[2], 2));
     }
 
     public float SIN(float x) {
-        return (float) Math.sin((float)x*Math.PI/180);
+        return (float) Math.sin((float) x * Math.PI / 180);
     }
 
     public float COS(float x) {
-        return (float) Math.cos((float)x*Math.PI/180);
+        return (float) Math.cos((float) x * Math.PI / 180);
     }
 
     public float[] addVecs(float[] x, float[] y) {
         float[] result = new float[3];
-        result[0] = x[0]+y[0];
-        result[1] = x[1]+y[1];
-        result[2] = x[2]+y[2];
+        result[0] = x[0] + y[0];
+        result[1] = x[1] + y[1];
+        result[2] = x[2] + y[2];
         return result;
     }
 
     public float[] subVecs(float[] x, float[] y) {
         float[] result = new float[3];
-        result[0] = x[0]-y[0];
-        result[1] = x[1]-y[1];
-        result[2] = x[2]-y[2];
+        result[0] = x[0] - y[0];
+        result[1] = x[1] - y[1];
+        result[2] = x[2] - y[2];
         return result;
     }
 
     public float[] multScalarInVec(float[] x, float s) {
         float[] result = new float[3];
-        result[0] = x[0]*s;
-        result[1] = x[1]*s;
-        result[2] = x[2]*s;
+        result[0] = x[0] * s;
+        result[1] = x[1] * s;
+        result[2] = x[2] * s;
         return result;
     }
+
     /**
      * reset the player axis to the basis axis
      */
@@ -187,8 +212,10 @@ public class Player {
         camera_z[2] = -1;
         setTransMatrix();
     }
+
     /**
      * set player position
+     *
      * @param pos
      */
     public void setPos(float[] pos) {
@@ -196,4 +223,12 @@ public class Player {
         position[1] = pos[1];
         position[2] = pos[2];
     }
+
+    public void check(float[] angle_step) {
+        System.out.print(angle_step);
+
+    }
+
+
+
 }
